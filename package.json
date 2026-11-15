@@ -1,0 +1,1 @@
+{ "name": "zaguan-rfid-bridge", "private": true, "type": "module", "engines": { "node": ">=18" }, "scripts": { "test": "node --test", "start": "node bridge.js" } }

@@ -1,0 +1,21 @@
+[Unit]
+Description=Puente RFID -> Zaguan
+After=network-online.target
+Wants=network-online.target
+# Sin límite de reinicios: si algo falla, el servicio siempre vuelve a intentarlo.
+StartLimitIntervalSec=0
+
+[Service]
+Type=simple
+User=zaguan
+WorkingDirectory=/opt/zaguan-rfid-bridge
+EnvironmentFile=/etc/zaguan-rfid-bridge.env
+ExecStart=/usr/bin/node /opt/zaguan-rfid-bridge/bridge.js
+Restart=always
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+
+[Install]
+WantedBy=multi-user.target
