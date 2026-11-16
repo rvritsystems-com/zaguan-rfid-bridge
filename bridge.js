@@ -6,6 +6,7 @@ import { Reader } from './lib/reader.js';
 import { Dedupe } from './lib/dedupe.js';
 import { Sender } from './lib/sender.js';
 import { Runner } from './lib/runner.js';
+import { stamp } from './lib/stamp.js';
 
 const env = process.env;
 const arg = (name, def) => { const i = process.argv.indexOf(`--${name}`); if (i < 0) return def; const v = process.argv[i + 1]; return v === undefined || v.startsWith('--') ? true : v; };
@@ -17,7 +18,7 @@ const opts = {
 if (!opts.host) { console.error('Falta --host (IP del lector). Ejemplo: node bridge.js --host 192.168.1.120 --dry-run'); process.exit(2); }
 if (!opts.dry && (!opts.url || !opts.token)) { console.error('Faltan --url y --token (o usa --dry-run para solo ver las lecturas)'); process.exit(2); }
 
-const log = (...a) => console.log(new Date().toISOString(), ...a);
+const log = (...a) => console.log(stamp(), ...a); // hora local de la Raspberry; el servidor recibe siempre UTC
 const runner = new Runner({
   reader: new Reader({ host: opts.host, port: opts.port }),
   dedupe: new Dedupe({ windowMs: opts.window, minHits: opts.hits }),
